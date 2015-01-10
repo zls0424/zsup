@@ -8,7 +8,7 @@ sup_cmd_t sup_cmds[] = {
   { "info", "file1 file2 file3 ...",
     sup_cmd_info_handler, 1, 0},
 
-  { "time", "infile outfile basepts newpts",
+  { "time", "infile outfile base_pts delta(ms)",
     sup_cmd_time_handler, 4, 4},
 
   { NULL, NULL,
@@ -31,6 +31,7 @@ sup_cmd_info_handler(int argc, char **argv)
 static int
 sup_cmd_time_handler(int argc, char **argv)
 {
+  int               delta_ms;
   sup_time_arg_t    arg;
 
   arg.fout = fopen(argv[1], "w");
@@ -39,11 +40,13 @@ sup_cmd_time_handler(int argc, char **argv)
     return 2;
   }
 
-  arg.orig = atoi(argv[2]);
-  arg.newv = atoi(argv[3]);
-  arg.diff = arg.newv - arg.orig;
+  arg.base = atoi(argv[2]);
+  delta_ms = atoi(argv[3]);
 
-  printf("adjust from %u to %u, diff %d\n", arg.orig, arg.newv, arg.diff);
+  arg.diff = sup_ms2pts(delta_ms);
+
+  printf("adjust from %u to %u, with %dms\n",
+         arg.base, arg.base + arg.diff, delta_ms);
 
   sup_run(argv[0], sup_time_fix, &arg);
 

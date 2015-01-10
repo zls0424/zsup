@@ -1,6 +1,7 @@
 CFLAGS = -g -Wall -Werror
 
 SRCS = $(wildcard *.c)
+HDRS = $(wildcard *.h)
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 all: zsup
@@ -10,3 +11,6 @@ clean:
 
 zsup: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
+
+%.o: %.c $(HDRS)
+	$(CC) $(CFLAGS) -c -o $@ $<

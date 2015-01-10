@@ -41,8 +41,7 @@ typedef struct {
 
 typedef struct {
   FILE      *fout;
-  uint32_t   orig;
-  uint32_t   newv;
+  uint32_t   base;
   int32_t    diff;
 } sup_time_arg_t;
 

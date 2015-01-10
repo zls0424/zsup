@@ -10,7 +10,7 @@ sup_time_fix(sup_packet_t *pkg, void *p, void *d)
   sup_packet_t       dummy;
   sup_time_arg_t    *arg = d;
 
-  if (pkg->type != SUP_SEGMENT_PCS || pkg->pts < arg->orig) {
+  if (pkg->type != SUP_SEGMENT_PCS || pkg->pts < arg->base) {
     fwrite(p, sup_packet_hdr_len + pkg->size, 1, arg->fout);
     return SUP_OK;
   }
